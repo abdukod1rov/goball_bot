@@ -72,7 +72,8 @@ async def main() -> None:
 
     # await bot.send_message(chat_id=1324271506, text="Bot started!")
 
-
+async def go():
+    ...
 async def on_startup(redis_conn: redis.Redis):
     pass
 
