@@ -1,0 +1,30 @@
+name: GoBall Telegram Bot
+
+on:
+  push:
+    branches: [ "dev" ]
+jobs:
+  build:
+    runs-on: [self-hosted]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: |
+          python3 -m venv venv
+          source venv/bin/activate
+          pip install -r requirements.txt
+      - name: Create a bot.ini file
+        run: |
+          echo "[tg_bot]" >> tg_bot/bot.ini
+          echo "token=7095775641:AAFG0dMZzCMVDAyfdh0wPg77cpjx-oXchj4" >> tg_bot/bot.ini
+          echo "admin_id=1324271506" >> tg_bot/bot.ini
+          echo "use_redis=true" >> tg_bot/bot.ini
+          echo "[db]" >> tg_bot/bot.ini
+          echo "host=172.18.0.2" >> tg_bot/bot.ini
+          echo "port=5432" >> tg_bot/bot.ini
+          echo "database=goball" >> tg_bot/bot.ini
+          echo "user=postgres" >> tg_bot/bot.ini
+          echo "password=goball771" >> tg_bot/bot.ini
+
+          
+      
