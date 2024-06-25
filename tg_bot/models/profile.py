@@ -8,7 +8,7 @@ class UserProfile(BaseModel):
 
     user_id: Mapped[int] = mapped_column(ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
     username: Mapped[str] = mapped_column(String(255), nullable=True, unique=True)
-    first_name: Mapped[str] = mapped_column(String(155), nullable=True)
+    first_name: Mapped[str] = mapped_column(String(155), nullable=False)
     last_name: Mapped[str] = mapped_column(String(155), nullable=True)
     bio: Mapped[str] = mapped_column(Text, nullable=True)
     photo = Column(String(255), nullable=True)
