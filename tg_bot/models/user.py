@@ -1,6 +1,6 @@
 from datetime import datetime
 import re
-from sqlalchemy import String, TIMESTAMP, text, Integer
+from sqlalchemy import String, TIMESTAMP, text, Integer, BigInteger
 from sqlalchemy.orm import Mapped, mapped_column, validates, Relationship
 
 from .base import Base
@@ -10,7 +10,7 @@ from .base import BaseModel
 class User(BaseModel):
     __tablename__ = 'users'
 
-    tg_id: Mapped[int] = mapped_column(Integer, nullable=True, unique=True)
+    tg_id: Mapped[int] = mapped_column(BigInteger, nullable=True, unique=True)
     phone_number: Mapped[str] = mapped_column(String(32), nullable=False, unique=True)
     password: Mapped[str] = mapped_column(nullable=True)
     is_active: Mapped[bool] = mapped_column(server_default=text('true'), nullable=False)

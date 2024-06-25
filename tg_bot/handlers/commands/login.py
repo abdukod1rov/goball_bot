@@ -44,6 +44,7 @@ router = Router()
 #         await message.answer(text='OK!')
 @router.message(Command('login'))
 async def login(message: types.Message):
+
     user_id = message.from_user.id
     redis_conn = await get_redis_connection()
     if redis_conn is None:
@@ -66,6 +67,7 @@ async def login(message: types.Message):
                 # If the passcode already exists, generate a new one
                 passcode = generate_otp()
         print('passcode is: ', passcode)
+
         # Set the expiration time for the passcode key
         await redis_conn.expire(str(passcode), 30)  # Set expire time 2 minutes
         # Store the passcode associated with the user ID

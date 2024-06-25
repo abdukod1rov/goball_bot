@@ -38,17 +38,30 @@ async def cmd_start(message: types.Message, ) -> None:
 
 @router.message(F.contact)
 async def cmd_contact(message: types.Message) -> None:
-    user_id = message.from_user.id
+    """
+    Some error is occurring when a contact is shared
+    """
+    print("Nima bo'lyabdi?")
+    user_id = int(message.from_user.id)
+    first_name = message.from_user.first_name
+    last_name = message.from_user.last_name
+    username = message.from_user.username
     phone_number = str(message.contact.phone_number)
+
     user = await UserRepo.get_user(user_id=user_id)
+    user_profile = await UserRepo.get_profile(user_id=user.id)
+    # Create a user if he does not exist
     if user is None:
         user_to_add = UserInCreate(phone_number=phone_number, tg_id=user_id)
-        new_user = await UserRepo.add_user(user_to_add)
-        if new_user is None:
-            await message.answer(text="Serverda xatolik,iltimos keyinroq urunib ko'ring!", show_alert=True)
-    else:
+        user = await UserRepo.add_user(user_to_add)
         modified_phone_number = phone_number[3:]
         await UserRepo.update_phone_number(user_id=user_id, phone_number=modified_phone_number)
+
+    if user_profile is None:
+        user_profile = await UserRepo.create_profile(user.id, first_name, last_name, username)
+    else:
+        await message.answer(text="Serverda xatolik,iltimos keyinroq urunib ko'ring!", show_alert=True)
+
     redis_conn = await get_redis_connection()
     if redis_conn is None:
         await message.answer(text="Serverda xatolik,iltimos keyinroq urunib ko'ring!", show_alert=True)
